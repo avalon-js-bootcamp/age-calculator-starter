@@ -1,0 +1,56 @@
+.date-checker {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-inputs {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.submit-spot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.line {
+  border: #eeeeee 1px solid;
+  height: 0px;
+  width: 80%;
+}
+
+button {
+  border-radius: 50%;
+  border: none;
+  width: 100px;
+  height: 100px;
+  background-color: hsl(259, 100%, 65%);
+}
+
+button:hover {
+  background-color: black;
+}
+
+@media (max-width: 768px) {
+  .date-inputs {
+    justify-content: center;
+  }
+
+  .submit-spot {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  .line {
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  button {
+    position: absolute;
+  }
+}

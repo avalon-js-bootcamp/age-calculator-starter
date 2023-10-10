@@ -1,0 +1,38 @@
+.result {
+  font-size: 5rem;
+  font-weight: 900;
+}
+
+.years {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.months {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.days {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.number {
+  color: hsl(259, 100%, 65%);
+}
+
+@media (max-width: 768px) {
+  .result {
+    font-size: 4rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .result {
+    font-size: 3rem;
+  }
+}
