@@ -33,6 +33,11 @@
   color: hsl(0, 100%, 67%);
 }
 
+input:focus {
+  border-color: hsl(259, 100%, 65%);
+  outline: none;
+}
+
 @media (max-width: 500px) {
   .date {
     font-size: 0.8rem;

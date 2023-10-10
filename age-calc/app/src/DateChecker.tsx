@@ -31,14 +31,18 @@ export default function DateChecker(props: DateCheckerProps) {
     const currentDay = props.day;
     const daysOfTheMonth = new Date(Number(year), Number(month), 0).getDate();
 
+    let hasErrors = false;
+
     if (day === "") {
       setDayMsg("This field is required");
       setDayMissing("missing");
       setDayWarning("warning");
+      hasErrors = true;
     } else if (Number(day) < 1 || Number(day) > Number(daysOfTheMonth)) {
       setDayMsg("Must be a valid day");
       setDayMissing("missing");
       setDayWarning("warning");
+      hasErrors = true;
     } else {
       setDayMsg("");
       setDayMissing("");
@@ -49,10 +53,12 @@ export default function DateChecker(props: DateCheckerProps) {
       setMonthMsg("This field is required");
       setMonthMissing("missing");
       setMonthWarning("warning");
+      hasErrors = true;
     } else if (Number(month) < 1 || Number(month) > 12) {
       setMonthMsg("Must be a valid month");
       setMonthMissing("missing");
       setMonthWarning("warning");
+      hasErrors = true;
     } else {
       setMonthMsg("");
       setMonthMissing("");
@@ -63,17 +69,19 @@ export default function DateChecker(props: DateCheckerProps) {
       setYearMsg("This field is required");
       setYearMissing("missing");
       setYearWarning("warning");
+      hasErrors = true;
     } else if (Number(year) > Number(currentYear)) {
       setYearMsg("Must be in the past");
       setYearMissing("missing");
       setYearWarning("warning");
+      hasErrors = true;
     } else {
       setYearMsg("");
       setYearMissing("");
       setYearWarning("");
     }
 
-    if (dayMsg === "" && monthMsg === "" && yearMsg === "") {
+    if (hasErrors) {
       return;
     }
 
@@ -104,8 +112,9 @@ export default function DateChecker(props: DateCheckerProps) {
     }
 
     if (ageDay === 0 && ageMonth === 0) {
-      alert(`Happy Birthday you are ${ageYear} years old today`);
-      return;
+      setTimeout(() => {
+        alert(`Happy Birthday! You are ${ageYear} years old today.`);
+      }, 500);
     }
 
     props.setResultYear(ageYear);
