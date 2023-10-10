@@ -12,12 +12,15 @@ interface DateCheckerProps {
 }
 
 export default function DateChecker(props: DateCheckerProps) {
-  const [day, setDay] = useState("");
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
+  //birthDay,birthMonth, birthYear - users birth date, starts as string and changes to number, for errorChecks
+  const [birthDay, setBirthDay] = useState("");
+  const [birthMonth, setBirthMonth] = useState("");
+  const [birthYear, setBirthYear] = useState("");
+  //dayMsg, monthMsg, yearMsg - used to set error messages - passed as prop
   const [dayMsg, setDayMsg] = useState("");
   const [monthMsg, setMonthMsg] = useState("");
   const [yearMsg, setYearMsg] = useState("");
+  //missing and warning are used to modify css in child components - passed as prop
   const [dayMissing, setDayMissing] = useState("");
   const [dayWarning, setDayWarning] = useState("");
   const [monthMissing, setMonthMissing] = useState("");
@@ -29,16 +32,25 @@ export default function DateChecker(props: DateCheckerProps) {
     const currentYear = props.year;
     const currentMonth = props.month;
     const currentDay = props.day;
-    const daysOfTheMonth = new Date(Number(year), Number(month), 0).getDate();
+    //daysOfTheMonth, used to find out how many days in that month, only leagal dates allowed, (e.g no feb 30th and only feb29th on leap years)
+    const daysOfTheMonth = new Date(
+      Number(birthYear),
+      Number(birthMonth),
+      0
+    ).getDate();
 
     let hasErrors = false;
 
-    if (day === "") {
+    //checks for birthDay, makes sure input is present + legal
+    if (birthDay === "") {
       setDayMsg("This field is required");
       setDayMissing("missing");
       setDayWarning("warning");
       hasErrors = true;
-    } else if (Number(day) < 1 || Number(day) > Number(daysOfTheMonth)) {
+    } else if (
+      Number(birthDay) < 1 ||
+      Number(birthDay) > Number(daysOfTheMonth)
+    ) {
       setDayMsg("Must be a valid day");
       setDayMissing("missing");
       setDayWarning("warning");
@@ -49,12 +61,13 @@ export default function DateChecker(props: DateCheckerProps) {
       setDayWarning("");
     }
 
-    if (month === "") {
+    //checks for birthMonth, makes sure input is present + legal
+    if (birthMonth === "") {
       setMonthMsg("This field is required");
       setMonthMissing("missing");
       setMonthWarning("warning");
       hasErrors = true;
-    } else if (Number(month) < 1 || Number(month) > 12) {
+    } else if (Number(birthMonth) < 1 || Number(birthMonth) > 12) {
       setMonthMsg("Must be a valid month");
       setMonthMissing("missing");
       setMonthWarning("warning");
@@ -65,12 +78,13 @@ export default function DateChecker(props: DateCheckerProps) {
       setMonthWarning("");
     }
 
-    if (year === "") {
+    //checks for birthYear, makes sure input is present + legal
+    if (birthYear === "") {
       setYearMsg("This field is required");
       setYearMissing("missing");
       setYearWarning("warning");
       hasErrors = true;
-    } else if (Number(year) > Number(currentYear)) {
+    } else if (Number(birthYear) > Number(currentYear)) {
       setYearMsg("Must be in the past");
       setYearMissing("missing");
       setYearWarning("warning");
@@ -81,14 +95,17 @@ export default function DateChecker(props: DateCheckerProps) {
       setYearWarning("");
     }
 
+    //stops before calculations if even 1 input is missing/not valid
     if (hasErrors) {
       return;
     }
 
-    let ageYear = Number(currentYear) - Number(year);
-    let ageMonth = Number(currentMonth) - Number(month);
-    let ageDay = Number(currentDay) - Number(day);
+    //calculations for age of user - year, month, day
+    let ageYear = Number(currentYear) - Number(birthYear);
+    let ageMonth = Number(currentMonth) - Number(birthMonth);
+    let ageDay = Number(currentDay) - Number(birthDay);
 
+    //verify thats theres no negative days + add only correct amount of days
     if (ageDay < 0) {
       ageMonth--;
       ageDay += new Date(
@@ -111,12 +128,14 @@ export default function DateChecker(props: DateCheckerProps) {
       ageMonth += 12;
     }
 
+    //special bithday message
     if (ageDay === 0 && ageMonth === 0) {
       setTimeout(() => {
         alert(`Happy Birthday! You are ${ageYear} years old today.`);
       }, 500);
     }
 
+    //passing the results back to parent component
     props.setResultYear(ageYear);
     props.setResultMonth(ageMonth);
     props.setResultDay(ageDay);
@@ -128,7 +147,7 @@ export default function DateChecker(props: DateCheckerProps) {
         <DateCard
           type="DAY"
           placeholder="DD"
-          onChange={(value) => setDay(value)}
+          onChange={(value) => setBirthDay(value)}
           msg={dayMsg}
           missing={dayMissing}
           warning={dayWarning}
@@ -136,7 +155,7 @@ export default function DateChecker(props: DateCheckerProps) {
         <DateCard
           type="MONTH"
           placeholder="MM"
-          onChange={(value) => setMonth(value)}
+          onChange={(value) => setBirthMonth(value)}
           msg={monthMsg}
           missing={monthMissing}
           warning={monthWarning}
@@ -144,7 +163,7 @@ export default function DateChecker(props: DateCheckerProps) {
         <DateCard
           type="YEAR"
           placeholder="YYYY"
-          onChange={(value) => setYear(value)}
+          onChange={(value) => setBirthYear(value)}
           msg={yearMsg}
           missing={yearMissing}
           warning={yearWarning}
