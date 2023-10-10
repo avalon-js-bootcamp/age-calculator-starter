@@ -73,7 +73,7 @@ export default function DateChecker(props: DateCheckerProps) {
       setYearWarning("");
     }
 
-    if (day === "" || month === "" || year === "") {
+    if (dayMsg === "" && monthMsg === "" && yearMsg === "") {
       return;
     }
 
