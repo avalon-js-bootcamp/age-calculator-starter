@@ -85,7 +85,7 @@ export default function DateChecker(props: DateCheckerProps) {
       setYearMsg("");
     }
 
-    //stops before calculations if even 1 input is missing/not valid also removes all error msg
+    //stops before calculations if even 1 input is missing/not valid also removes all error highlights
     if (hasErrors) {
       return;
     } else {
