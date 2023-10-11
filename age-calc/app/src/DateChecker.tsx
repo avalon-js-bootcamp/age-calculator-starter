@@ -21,12 +21,8 @@ export default function DateChecker(props: DateCheckerProps) {
   const [monthMsg, setMonthMsg] = useState("");
   const [yearMsg, setYearMsg] = useState("");
   //missing and warning are used to modify css in child components - passed as prop
-  const [dayMissing, setDayMissing] = useState("");
-  const [dayWarning, setDayWarning] = useState("");
-  const [monthMissing, setMonthMissing] = useState("");
-  const [monthWarning, setMonthWarning] = useState("");
-  const [yearMissing, setYearMissing] = useState("");
-  const [yearWarning, setYearWarning] = useState("");
+  const [missing, setMissing] = useState("");
+  const [warning, setWarning] = useState("");
 
   const handleButtonClick = () => {
     const currentYear = props.year;
@@ -44,60 +40,57 @@ export default function DateChecker(props: DateCheckerProps) {
     //checks for birthDay, makes sure input is present + legal
     if (birthDay === "") {
       setDayMsg("This field is required");
-      setDayMissing("missing");
-      setDayWarning("warning");
+      setMissing("missing");
+      setWarning("warning");
       hasErrors = true;
     } else if (
       Number(birthDay) < 1 ||
       Number(birthDay) > Number(daysOfTheMonth)
     ) {
       setDayMsg("Must be a valid day");
-      setDayMissing("missing");
-      setDayWarning("warning");
+      setMissing("missing");
+      setWarning("warning");
       hasErrors = true;
     } else {
       setDayMsg("");
-      setDayMissing("");
-      setDayWarning("");
     }
 
     //checks for birthMonth, makes sure input is present + legal
     if (birthMonth === "") {
       setMonthMsg("This field is required");
-      setMonthMissing("missing");
-      setMonthWarning("warning");
+      setMissing("missing");
+      setWarning("warning");
       hasErrors = true;
     } else if (Number(birthMonth) < 1 || Number(birthMonth) > 12) {
       setMonthMsg("Must be a valid month");
-      setMonthMissing("missing");
-      setMonthWarning("warning");
+      setMissing("missing");
+      setWarning("warning");
       hasErrors = true;
     } else {
       setMonthMsg("");
-      setMonthMissing("");
-      setMonthWarning("");
     }
 
     //checks for birthYear, makes sure input is present + legal
     if (birthYear === "") {
       setYearMsg("This field is required");
-      setYearMissing("missing");
-      setYearWarning("warning");
+      setMissing("missing");
+      setWarning("warning");
       hasErrors = true;
     } else if (Number(birthYear) > Number(currentYear)) {
       setYearMsg("Must be in the past");
-      setYearMissing("missing");
-      setYearWarning("warning");
+      setMissing("missing");
+      setWarning("warning");
       hasErrors = true;
     } else {
       setYearMsg("");
-      setYearMissing("");
-      setYearWarning("");
     }
 
-    //stops before calculations if even 1 input is missing/not valid
+    //stops before calculations if even 1 input is missing/not valid also removes all error msg
     if (hasErrors) {
       return;
+    } else {
+      setMissing("");
+      setWarning("");
     }
 
     //calculations for age of user - year, month, day
@@ -149,24 +142,24 @@ export default function DateChecker(props: DateCheckerProps) {
           placeholder="DD"
           onChange={(value) => setBirthDay(value)}
           msg={dayMsg}
-          missing={dayMissing}
-          warning={dayWarning}
+          missing={missing}
+          warning={warning}
         ></DateCard>
         <DateCard
           type="MONTH"
           placeholder="MM"
           onChange={(value) => setBirthMonth(value)}
           msg={monthMsg}
-          missing={monthMissing}
-          warning={monthWarning}
+          missing={missing}
+          warning={warning}
         ></DateCard>
         <DateCard
           type="YEAR"
           placeholder="YYYY"
           onChange={(value) => setBirthYear(value)}
           msg={yearMsg}
-          missing={yearMissing}
-          warning={yearWarning}
+          missing={missing}
+          warning={warning}
         ></DateCard>
       </div>
       <div className="submit-spot">
